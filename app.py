@@ -12,6 +12,30 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+class Movie(db.Model):
+    __tablename__ = 'movies'
+    id = db.Column(db.integer, primary_key=True)
+    title = db.Column(db.String(80), unique=True)
+    title_en = db.Column(db.String(80), unique=False)
+    audience = db.Column(db.Integer, unique=False)
+    open_date = db.Column(db.String(80), unique=False)
+    genre = db.Column(db.String(80), unique=False)
+    watch_grade = db.Column(db.String(80), unique=False)
+    score = db.Column(db.Float, unique=False)
+    poster_url = db.Column(db.TEXT, unique=False)
+    description =  db.Column(db.TEXT, unique=False)
+    
+    def __init__(self, title, title_en, audience, open_date, genre, watch_grade, score, poster_url, description):
+        self.title = title
+        self.title_en = title_en
+        self.audience = audience
+        self.open_date = open_date
+        self.genre = genre
+        self.watch_grade = watch_grade
+        self.score = score
+        self.poster_url = poster_url
+        self.description = description
+    
 
 @app.route('/')
 def index():
