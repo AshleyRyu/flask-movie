@@ -10,8 +10,11 @@
     <h1>영화 목록</h1>
     <ul>
     {% for movie in movies %}
-        <li>{{movie.id}}:{{movie.title}}</li>
+        <li>{{movie.id}} : <a href="/movies/{{movie.id}}">{{movie.title}}</a></li>
+        <li>{{movie.score}}</li>
+    <hr>
     {% endfor %}
+    <a href="/movies/new">등록하기</a>
     </ul>
 </body>
 </html>
