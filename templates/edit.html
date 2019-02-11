@@ -1,12 +1,18 @@
-<form action="/movies/{{movie.id}}/update", method="POST">
-    title : <input type="text" name="title"> <br>
-    title_en : <input type="text" name="title_en"> <br>
-    audience : <input type="number" name="audience"> <br>
-    open_date : <input type="text" name="open_date"> <br>
-    genre : <input type="text" name="genre"> <br>
-    watch_grade : <input type="text" name="watch_grade"> <br>
-    score : <input type="number" name="score"> <br>
-    poster_url : <input type="text" name="poster_url"> <br>
-    description : <input type="textarea" name="description"> <br>
-    <input type="submit" value="수정하기">
-</form>
+{% extends 'base.html' %}
+{% block body %}
+
+    <form action="/movies/{{movie.id}}/update", method="POST">
+        title : <input type="text" name="title"> <br>
+        title_en : <input type="text" name="title_en"> <br>
+        audience : <input type="number" name="audience"> <br>
+        open_date : <input type="text" name="open_date"> <br>
+        genre : <input type="text" name="genre"> <br>
+        watch_grade : <input type="text" name="watch_grade"> <br>
+        score : <input type="number" name="score"> <br>
+        poster_url : <input type="text" name="poster_url"> <br>
+        description : <input type="textarea" name="description"> <br>
+        <input type="submit" class="btn btn-primary" value="수정하기">
+        <a href="javascript:history.back()" class="btn btn-primary">뒤로가기</a>
+    </form>
+
+{% endblock %}

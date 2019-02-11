@@ -1,20 +1,25 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>영화 목록</h1>
+{% extends 'base.html' %}
+{% block body %}
     <ul>
     {% for movie in movies %}
-        <li>{{movie.id}} : <a href="/movies/{{movie.id}}">{{movie.title}}</a></li>
-        <li>{{movie.score}}</li>
-    <hr>
+        <!--<li>{{movie.id}} : <a href="/movies/{{movie.id}}">{{movie.title}}</a></li>-->
+        <!--<li>{{movie.score}}</li>-->
+        <div class="card" style="width: 18rem;">
+          <!--<img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title"><a href="/movies/{{movie.id}}">{{movie.title}}</a></h5>
+            <span class="badge badge-success">{{movie.score}}</span>
+            <!--<p class="card-text">{{movie.score}}</p>-->
+            <br>
+            <a href="{{movie.poster_url}}" class="btn btn-primary">영화 사이트 바로가기</a>
+            <!--<a href="javascript:history.back()" class="btn btn-primary">뒤로가기</a>-->
+          </div>
+        </div>
     {% endfor %}
-    <a href="/movies/new">등록하기</a>
-    </ul>
-</body>
-</html>
+    <!--<ul>-->
+    <!--{% for movie in movies %}-->
+    <!--    <li>{{movie.id}} : <a href="/movies/{{movie.id}}">{{movie.title}}</a></li>-->
+    <!--    <li>{{movie.score}}</li>-->
+    <!--<hr>-->
+    <!--{% endfor %}-->
+{% endblock %}

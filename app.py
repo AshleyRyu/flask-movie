@@ -6,7 +6,7 @@ import csv
 # flask 및 sqlalchemy 설정
 # app.config('SQLALCHEMY_DATABASE_URI')
 app = Flask(__name__)
-# app.secret_key = 'asdf'
+app.secret_key = 'asdf'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_flask.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -56,16 +56,17 @@ def new_movie():
     
 @app.route('/movies/create', methods=["POST"])
 def create_movie():
-    title = request.form.get('title')
-    title_en = request.form.get('title_en')
-    audience = request.form.get('audience') 
-    open_date = request.form.get('open_date')
-    genre = request.form.get('genre')
-    watch_grade = request.form.get('watch_grade')
-    score = request.form.get('score')
-    poster_url = request.form.get('poster_url')
-    description = request.form.get('description')
-    movie = Movie(title=title, title_en=title_en, audience=audience, open_date=open_date, genre=genre, watch_grade=watch_grade, score=score, poster_url=poster_url, description=description)
+    movie = Movie(**request.form) # DB col명 : 사용자 입력
+    # title = request.form.get('title')
+    # title_en = request.form.get('title_en')
+    # audience = request.form.get('audience') 
+    # open_date = request.form.get('open_date')
+    # genre = request.form.get('genre')
+    # watch_grade = request.form.get('watch_grade')
+    # score = request.form.get('score')
+    # poster_url = request.form.get('poster_url')
+    # description = request.form.get('description')
+    # movie = Movie(title=title, title_en=title_en, audience=audience, open_date=open_date, genre=genre, watch_grade=watch_grade, score=score, poster_url=poster_url, description=description)
     
     db.session.add(movie)
     db.session.commit()
@@ -83,21 +84,29 @@ def edit_movie(id):
     return render_template('edit.html', movie = movie)
     
 @app.route('/movies/<int:id>/update', methods=["POST"])
-def update_movie(id):
+# def update_movie(id):
+#     movie = Movie.query.get(id)
+#     for key, value in request.form.items():
+#         dir(movie)
+def update():
     movie = Movie.query.get(id)
-    
-    movie.title = request.form.get('title')
-    movie.title_en = request.form.get('title_en')
-    movie.audience = request.form.get('audience') 
-    movie.open_date = request.form.get('open_date')
-    movie.genre = request.form.get('genre')
-    movie.watch_grade = request.form.get('watch_grade')
-    movie.score = request.form.get('score')
-    movie.poster_url = request.form.get('poster_url')
-    movie.description = request.form.get('description')
+    for key, value in request.form.items():
+        setattr(movie, key, value)
+        movie.__setattr__(key, value)
     db.session.commit()
     
-    # flash('수정!!!!', 'success')
+    # movie.title = request.form.get('title')
+    # movie.title_en = request.form.get('title_en')
+    # movie.audience = request.form.get('audience') 
+    # movie.open_date = request.form.get('open_date')
+    # movie.genre = request.form.get('genre')
+    # movie.watch_grade = request.form.get('watch_grade')
+    # movie.score = request.form.get('score')
+    # movie.poster_url = request.form.get('poster_url')
+    # movie.description = request.form.get('description')
+    # db.session.commit()
+    
+    flash('수정!!!!', 'success')
     return redirect('/movies')
 
 @app.route('/movies/<int:id>/delete')
@@ -105,7 +114,7 @@ def delete_movie(id):
     movie = Movie.query.get(id)
     db.session.delete(movie)
     db.session.commit()
-    # flash('{}을 삭제했다!!!!'.format(movie.title), 'danger')
+    flash(f'{movie.title}을 삭제했다!!!!', 'danger')
 
     # return render_template('index.html', user = user)
     return redirect('/movies')
